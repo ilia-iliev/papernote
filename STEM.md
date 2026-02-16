@@ -1,3 +1,5 @@
+LINK: https://arxiv.org/pdf/2601.10639
+
 # 1. What is the paper about as a whole?
 Efficiency gain in MoE/transformer.
 

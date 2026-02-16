@@ -1,10 +1,18 @@
 #!/bin/bash
 
 # Set the filename based on the first argument
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 <filename> <link>"
+    exit 1
+fi
+
 FILENAME="${1}.md"
+
 
 # Create the file and load the questions
 cat << EOF > "$FILENAME"
+LINK: ${2}
+
 # 1. What is the paper about as a whole?
 
 # 2. What is being said in detail, and how?
