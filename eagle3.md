@@ -1,3 +1,4 @@
+TITLE: EAGLE-3
 LINK: https://arxiv.org/abs/2503.01840
 
 # 1. What is the paper about as a whole?

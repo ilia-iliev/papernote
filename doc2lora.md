@@ -1,3 +1,4 @@
+TITLE: Doc2LoRA
 LINK: https://arxiv.org/pdf/2602.15902
 
 # 1. What is the paper about as a whole?

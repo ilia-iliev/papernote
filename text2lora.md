@@ -1,3 +1,4 @@
+TITLE: Text2LoRA
 LINK: https://arxiv.org/pdf/2506.06105
 
 # 1. What is the paper about as a whole?
