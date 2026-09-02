@@ -1,4 +1,5 @@
 LINK: https://arxiv.org/abs/2603.03251
+DATE: 2026-05-13
 
 # 1. What is the paper about as a whole?
 An optimization on speculative decoding. The authors identify that the draft model is sitting idle while waiting for verification and propose that it could use the available resources to generate solutions based on what predicted (speculated) verification result.

@@ -1,4 +1,5 @@
 LINK: https://arxiv.org/html/2602.21548v2
+DATE: 2026-04-01
 
 # 1. What is the paper about as a whole?
 The paper considers the contraints of current LLM inference in GPU clusters; specifically focusing on bandwidth bottlenecks. Suggests tricks of how to distribute the available resources more appropriately for the real workloads.

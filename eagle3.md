@@ -1,5 +1,6 @@
 TITLE: EAGLE-3
 LINK: https://arxiv.org/abs/2503.01840
+DATE: 2026-07-17
 
 # 1. What is the paper about as a whole?
 An improved version of an existing speculative decoding algorithm - EAGLE-3. 

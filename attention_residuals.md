@@ -1,4 +1,5 @@
 LINK: https://arxiv.org/pdf/2603.15031
+DATE: 2026-04-23
 
 # 1. What is the paper about as a whole?
 The paper proposes an attention mechanism for the residual stream and talks about several practical techniques about achieving this without severe tradeoffs.

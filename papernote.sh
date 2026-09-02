@@ -7,11 +7,13 @@ if [ "$#" -lt 2 ]; then
 fi
 
 FILENAME="${1}.md"
+TODAY=$(date +%F)
 
 
 # Create the file and load the questions
 cat << EOF > "$FILENAME"
 LINK: ${2}
+DATE: $TODAY
 
 # 1. What is the paper about as a whole?
 

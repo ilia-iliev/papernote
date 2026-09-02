@@ -1,4 +1,5 @@
 LINK: https://github.com/deepseek-ai/Engram/blob/main/Engram_paper.pdf
+DATE: 2026-03-20
 
 # 1. What is the paper about as a whole?
 It's about integrating knowledge retrieval with the network weights.

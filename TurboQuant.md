@@ -1,4 +1,5 @@
 LINK: https://arxiv.org/abs/2504.19874
+DATE: 2026-04-28
 
 # 1. What is the paper about as a whole?
 A quantization method that provably achieves near-optimum lower-bound error rate - very close to the provable lower bound. They propose a 2-step method that utilizes a conventional MSE quantization followed by 1-bit quantization on the residual.

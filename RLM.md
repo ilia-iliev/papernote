@@ -1,4 +1,5 @@
 LINK: https://arxiv.org/pdf/2512.24601
+DATE: 2026-02-05
 
 # 1. What is the paper about as a whole?
 Improving the performance of LLMs in long-context prompts. The authors propose a method of prompt management.

@@ -1,5 +1,6 @@
 TITLE: Text2LoRA
 LINK: https://arxiv.org/pdf/2506.06105
+DATE: 2026-03-20
 
 # 1. What is the paper about as a whole?
 It's about generating a LoRA weight update given arbitrary task description. They train a hypernetwork (T2L) that can generate those weights. The paper evaluates several methods of training that hypernetwork and compares them. 
