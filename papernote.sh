@@ -8,10 +8,13 @@ fi
 
 FILENAME="${1}.md"
 TODAY=$(date +%F)
+# Title from the filename: underscores to spaces, lowercase words capitalised
+TITLE=$(echo "${1}" | tr '_' ' ' | sed -e 's/\b\([a-z]\)/\u\1/g')
 
 
 # Create the file and load the questions
 cat << EOF > "$FILENAME"
+TITLE: $TITLE
 LINK: ${2}
 DATE: $TODAY
 

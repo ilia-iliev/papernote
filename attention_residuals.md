@@ -1,3 +1,4 @@
+TITLE: Attention Residuals
 LINK: https://arxiv.org/pdf/2603.15031
 DATE: 2026-04-23
 

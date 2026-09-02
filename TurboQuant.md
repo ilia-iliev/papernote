@@ -1,3 +1,4 @@
+TITLE: TurboQuant
 LINK: https://arxiv.org/abs/2504.19874
 DATE: 2026-04-28
 

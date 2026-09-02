@@ -1,3 +1,4 @@
+TITLE: Speculative Speculative Decoding
 LINK: https://arxiv.org/abs/2603.03251
 DATE: 2026-05-13
 

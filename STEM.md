@@ -1,3 +1,4 @@
+TITLE: STEM
 LINK: https://arxiv.org/pdf/2601.10639
 DATE: 2026-02-05
 

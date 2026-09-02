@@ -1,3 +1,4 @@
+TITLE: DualPath
 LINK: https://arxiv.org/html/2602.21548v2
 DATE: 2026-04-01
 
