@@ -2,10 +2,10 @@ TITLE: TurboQuant
 LINK: https://arxiv.org/abs/2504.19874
 DATE: 2026-04-28
 
-# 1. What is the paper about as a whole?
+## 1. What is the paper about as a whole?
 A quantization method that provably achieves near-optimum lower-bound error rate - very close to the provable lower bound. They propose a 2-step method that utilizes a conventional MSE quantization followed by 1-bit quantization on the residual.
 
-# 2. What is being said in detail, and how?
+## 2. What is being said in detail, and how?
 The paper leverages several concepts:
 
 1. If we multiply an input matrix by a rotation matrix, we can "spread" the information across the dimensions so that they are effectively independent
@@ -36,9 +36,9 @@ To dequantize:
 
 Empirically, this achieves much better compression compared to alternatives at 4-bits - with less quantization error and better benchmarks.
 
-# 3. Is the paper true, in whole or part?
+## 3. Is the paper true, in whole or part?
 The paper seems to be promising in terms of achieved quantization. It should be noted that the extra mat-mul with dxd random matrix makes this quantization impractical for large d; i.e. model weights. However, the KV cache reduction is significant for inference at scale but it's hard to evaluate at what point the extra steps in quant/dequant become more trouble than they are worth.
 
-# 4. What of it?
+## 4. What of it?
 The paper has attracked substantial interest and is promising meaningful reduction of the KV cache at minimum performance hit. Moreover, the quant/dequant process can be accelerated using a GPU; effectively meaning that this or a similar method is likely to be commonplace for large-context LLM inference. The fact that it's data-agnostic is also a major plus.
 

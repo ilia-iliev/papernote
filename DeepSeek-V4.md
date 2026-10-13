@@ -2,11 +2,11 @@ TITLE: DeepSeek-V4
 LINK: https://arxiv.org/pdf/2606.19348
 DATE: 2026-09-04
 
-# 1. What is the paper about as a whole?
+## 1. What is the paper about as a whole?
 
 Technical report about the training and inference of DeepSeek-V4. Includes information about the whole stack - infrastructure, architecture, pre-training, post-training and evaluations. The main goal is to achieve a1 million context window while retaining reasoning and agentic capabilities
 
-# 2. What is being said in detail, and how?
+## 2. What is being said in detail, and how?
 
 Architectural decisions:
 
@@ -47,7 +47,7 @@ Evaluation
 - As a coding agent, DeepSeek-V4-Pro is almost at Opus 4.5-level
 - At full context, Pro has 27% of the FLOps and 10% the KV cache size compared to DeepSeek-V3.2
 
-# 3. Is the paper true, in whole or part?
+## 3. Is the paper true, in whole or part?
 
 The paper gives a good overview of the architecture and the decisions behind it. It's quite detailed. 
 
@@ -55,7 +55,7 @@ A large portion of the improvements in the paper are still closed. The data reci
 
 DeepSeek has achieved 1 million context length - and that's notable for open weight. However, it's not clear how well CSA and HCA handle long context - only that they achieved long context.
 
-# 4. What of it?
+## 4. What of it?
 
 I think the model puts into perspective how difficult it is to achieve 1 million context - and all the tradeoffs that need to be made. The attention mechanism is degraded compared to quadratic attention - so I have to be mindful when approaching long context. It's likely that the closed labs also do similar tradeoffs to achieve 1 million context.
 

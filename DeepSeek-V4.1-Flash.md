@@ -2,11 +2,11 @@ TITLE: DeepSeek-V4.1-Flash
 LINK: https://arxiv.org/html/2609.19969v1
 DATE: 2026-10-06
 
-# 1. What is the paper about as a whole?
+## 1. What is the paper about as a whole?
 
 The improvements that lead to better benchmark results and performance in DeepSeek-V4.1-Flash. The paper explains architectural decisions, challenges, and the post-training recipe in more detail.   
 
-# 2. What is being said in detail, and how?
+## 2. What is being said in detail, and how?
 
 The improvements are in the following aspects:
 
@@ -58,13 +58,13 @@ Evaluation
 - Post-trained version is much better on agentic and reasoning benchmarks 
 - They have started work on multi-agent
 
-# 3. Is the paper true, in whole or part?
+## 3. Is the paper true, in whole or part?
 
 The architectural changes do target better hardware utilization. It's hard to evaluate the intelligence tradeoff - as DeepSeek makes loads of them and we have a single point of comparison. The base version is roughly in line with the previous version, with the added benefit of having an image encoder.
 
 The model explicitly targets agentic workflows - which is the reason for the considerations of prefill improvements. Some numbers to understand why prefill is more troublesome from actual users would have been helpful to evaluate. 
 
-# 4. What of it?
+## 4. What of it?
 
 The paper shows that incremental architectural performance tradeoffs can substantially decrease the compute and memory footprint. The freed compute seems to be utilized for improved post-training RL and the results on agentic benchmarks are significantly better. 
 
