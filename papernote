@@ -4,19 +4,23 @@ trim() {
     echo "$1" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
 }
 
-NAME=$(trim "$1")
+TITLE=$(trim "$1")
 LINK=$(trim "$2")
 
-if [ -z "$NAME" ] || [ -z "$LINK" ]; then
-    echo "Usage: $0 <filename> <link>"
+if [ -z "$TITLE" ] || [ -z "$LINK" ]; then
+    echo "Usage: papernote \"Paper Title\" <link>" >&2
     exit 1
 fi
 
-FILENAME="$NAME.md"
+# Slug: lowercase, non-alphanumerics collapsed into single underscores
+SLUG=$(echo "$TITLE" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-z0-9]\+/_/g' -e 's/^_//' -e 's/_$//')
+FILENAME="$SLUG.md"
 TODAY=$(date +%F)
-# Title from the filename: underscores to spaces, lowercase words capitalised
-TITLE=$(echo "$NAME" | tr '_' ' ' | sed -e 's/\b\([a-z]\)/\u\1/g')
 
+if [ -e "$FILENAME" ]; then
+    echo "$FILENAME already exists" >&2
+    exit 1
+fi
 
 # Create the file and load the questions
 cat << EOF > "$FILENAME"
@@ -34,4 +38,5 @@ DATE: $TODAY
 
 EOF
 
+echo "$FILENAME"
 "${EDITOR:-sensible-editor}" "$FILENAME"
