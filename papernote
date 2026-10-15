@@ -1,14 +1,63 @@
 #!/bin/bash
+set -o pipefail
+
+extract_title() {
+    local metadata_url="$1"
+    # arXiv publishes the paper title on its abstract page, not in the PDF.
+    if [[ "$metadata_url" =~ ^(https?://(www\.)?arxiv\.org)/(pdf|html)/([^?#]+) ]]; then
+        metadata_url="${BASH_REMATCH[1]}/abs/${BASH_REMATCH[4]%.pdf}"
+    fi
+
+    curl -fsSL -- "$metadata_url" | uv run python -c '
+import sys
+from html.parser import HTMLParser
+
+
+class TitleParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.title = ""
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "meta" and attrs.get("name", "").lower() == "citation_title":
+            self.title = attrs.get("content") or ""
+
+
+parser = TitleParser()
+parser.feed(sys.stdin.read())
+print(" ".join(parser.title.split()))
+'
+}
 
 trim() {
     echo "$1" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
 }
 
-TITLE=$(trim "$1")
-LINK=$(trim "$2")
+case $# in
+    1)
+        LINK=$(trim "$1")
+        if [ -z "$LINK" ]; then
+            echo 'Usage: papernote ["Paper Title"] <link>' >&2
+            exit 1
+        fi
+        if ! TITLE=$(extract_title "$LINK") || [ -z "$TITLE" ]; then
+            echo 'Could not extract the paper title; supply it explicitly: papernote "Paper Title" <link>' >&2
+            exit 1
+        fi
+        ;;
+    2)
+        TITLE=$(trim "$1")
+        LINK=$(trim "$2")
+        ;;
+    *)
+        echo 'Usage: papernote ["Paper Title"] <link>' >&2
+        exit 1
+        ;;
+esac
 
 if [ -z "$TITLE" ] || [ -z "$LINK" ]; then
-    echo "Usage: papernote \"Paper Title\" <link>" >&2
+    echo 'Usage: papernote ["Paper Title"] <link>' >&2
     exit 1
 fi
 
@@ -39,4 +88,4 @@ DATE: $TODAY
 EOF
 
 echo "$FILENAME"
-"${EDITOR:-sensible-editor}" "$FILENAME"
+"${EDITOR:-mrk}" "$FILENAME"
