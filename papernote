@@ -1,11 +1,42 @@
 #!/bin/bash
 set -o pipefail
 
+lookup_arxiv() {
+    local query
+    if [ "$1" = id ]; then
+        query="id_list=$2"
+    else
+        # Quote the title so punctuation (especially colons) is not query syntax.
+        query="${2//\\/\\\\}"
+        query="${query//\"/\\\"}"
+        query="search_query=ti:\"$query\""
+    fi
+
+    curl -fsSL --get --data-urlencode "$query" \
+        --data-urlencode 'max_results=1' --data-urlencode 'sortBy=relevance' \
+        -- 'https://export.arxiv.org/api/query' | uv run python -c '
+import sys
+import xml.etree.ElementTree as ET
+
+
+feed = ET.fromstring(sys.stdin.read())
+ns = {"atom": "http://www.w3.org/2005/Atom"}
+entry = feed.find("atom:entry", ns)
+if entry is None:
+    sys.exit(1)
+link = entry.findtext("atom:id", default="", namespaces=ns).strip()
+title = " ".join(entry.findtext("atom:title", default="", namespaces=ns).split())
+if not title or not link.startswith(("http://arxiv.org/abs/", "https://arxiv.org/abs/")):
+    sys.exit(1)
+print(title if sys.argv[1] == "id" else link.replace("http://", "https://", 1))
+' "$1"
+}
+
 extract_title() {
     local metadata_url="$1"
-    # arXiv publishes the paper title on its abstract page, not in the PDF.
-    if [[ "$metadata_url" =~ ^(https?://(www\.)?arxiv\.org)/(pdf|html)/([^?#]+) ]]; then
-        metadata_url="${BASH_REMATCH[1]}/abs/${BASH_REMATCH[4]%.pdf}"
+    if [[ "$metadata_url" =~ ^https?://(www\.)?arxiv\.org/(abs|pdf|html)/([^?#]+) ]]; then
+        lookup_arxiv id "${BASH_REMATCH[3]%.pdf}"
+        return $?
     fi
 
     curl -fsSL -- "$metadata_url" | uv run python -c '
@@ -36,14 +67,23 @@ trim() {
 
 case $# in
     1)
-        LINK=$(trim "$1")
-        if [ -z "$LINK" ]; then
-            echo 'Usage: papernote ["Paper Title"] <link>' >&2
+        INPUT=$(trim "$1")
+        if [ -z "$INPUT" ]; then
+            echo 'Usage: papernote "Paper Title" | papernote ["Paper Title"] <link>' >&2
             exit 1
         fi
-        if ! TITLE=$(extract_title "$LINK") || [ -z "$TITLE" ]; then
-            echo 'Could not extract the paper title; supply it explicitly: papernote "Paper Title" <link>' >&2
-            exit 1
+        if [[ "$INPUT" =~ ^https?:// ]]; then
+            LINK="$INPUT"
+            if ! TITLE=$(extract_title "$LINK") || [ -z "$TITLE" ]; then
+                echo 'Could not extract the paper title; supply it explicitly: papernote "Paper Title" <link>' >&2
+                exit 1
+            fi
+        else
+            TITLE="$INPUT"
+            if ! LINK=$(lookup_arxiv title "$TITLE") || [ -z "$LINK" ]; then
+                echo 'No arXiv match or lookup failed; supply a link explicitly: papernote "Paper Title" <link>' >&2
+                exit 1
+            fi
         fi
         ;;
     2)
@@ -51,13 +91,13 @@ case $# in
         LINK=$(trim "$2")
         ;;
     *)
-        echo 'Usage: papernote ["Paper Title"] <link>' >&2
+        echo 'Usage: papernote "Paper Title" | papernote ["Paper Title"] <link>' >&2
         exit 1
         ;;
 esac
 
 if [ -z "$TITLE" ] || [ -z "$LINK" ]; then
-    echo 'Usage: papernote ["Paper Title"] <link>' >&2
+    echo 'Usage: papernote "Paper Title" | papernote ["Paper Title"] <link>' >&2
     exit 1
 fi
 
